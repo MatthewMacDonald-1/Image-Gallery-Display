@@ -14,6 +14,7 @@ let imageGallery = new ImageGalleryLayout(images, galleryElement);
 
 imageGallery.loadIntoElement();
 
+/** Call this function from the onresize attribute in the body tag of the HTML */
 function forResizeCall() {
     imageGallery.resizeGalleryImages();
 }
