@@ -63,7 +63,7 @@ class ImageGalleryLayout {
 
   resizeGalleryImages() {
     let parentWidth = this.parentElement.getBoundingClientRect().width;
-    let viewPortHeight = window.innerHeight; //console.log(parentWidth);
+    let viewPortHeight = window.innerHeight;
 
     let i = 0;
 
@@ -110,7 +110,6 @@ class ImageGalleryLayout {
             element.style.margin = "0 auto";
           }
         } else {
-          console.log("k == " + k);
           break;
         }
       }

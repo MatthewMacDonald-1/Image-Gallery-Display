@@ -56,7 +56,6 @@ class ImageGalleryLayout {
     resizeGalleryImages() {
         let parentWidth:number = this.parentElement.getBoundingClientRect().width;
         let viewPortHeight:number = window.innerHeight;
-        //console.log(parentWidth);
 
         let i:number = 0;
         while (i < this.images.length) {
@@ -101,7 +100,6 @@ class ImageGalleryLayout {
                         element.style.margin = "0 auto";
                     }
                 } else {
-                    console.log("k == " + k);
                     break;
                 }
             }
