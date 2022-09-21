@@ -70,20 +70,20 @@ class ImageGalleryLayout {
 
                 selectedImages.forEach(element => {
                     // adjust to a preset hieght for all images
-                    let scaleBy:number = 1000 / element.height;
-                    element.height = Math.floor(element.height * scaleBy);
-                    element.width = Math.floor(element.width * scaleBy);
+                    let scaleBy:number = 1000 / element.getHeight();
+                    element.setHeight(Math.floor(element.getHeight() * scaleBy));
+                    element.setWidth(Math.floor(element.getWidth() * scaleBy));
                 });
 
                 let parentWidthAdjustedForMargin = Math.floor(parentWidth - (2 * this.imageMargin * selectedImages.length));
 
                 adjustedWidthPercent = parentWidthAdjustedForMargin / this.sumWidthOfImages(selectedImages);
 
-                if (Math.floor(this.images[i].height * adjustedWidthPercent) <= (viewPortHeight * this.absolutMaxImageHeight < this.imageMaxTargetHeight + 150 ? viewPortHeight * this.absolutMaxImageHeight : this.imageMaxTargetHeight) && Math.floor(this.images[i].height * adjustedWidthPercent) >= this.imageMinTargetHeight) {
+                if (Math.floor(this.images[i].getHeight() * adjustedWidthPercent) <= (viewPortHeight * this.absolutMaxImageHeight < this.imageMaxTargetHeight + 150 ? viewPortHeight * this.absolutMaxImageHeight : this.imageMaxTargetHeight) && Math.floor(this.images[i].getHeight() * adjustedWidthPercent) >= this.imageMinTargetHeight) {
                     fitsBounds = true;
                 } else if (i + (j - i) + 1 >= this.images.length) {
                     fitsBounds = true; // it doesn't but otherwise the loop could go on infinitly
-                } else if (Math.floor(this.images[i].height * adjustedWidthPercent) <= this.imageMinTargetHeight) {
+                } else if (Math.floor(this.images[i].getWidth() * adjustedWidthPercent) <= this.imageMinTargetHeight) {
                     fitsBounds = true;
                 } else {
                     j++;
@@ -92,9 +92,9 @@ class ImageGalleryLayout {
             for (let k = 0; k < selectedImages.length; k++) {
                 let element = document.getElementById(this.GalleryId + (i + k));
                 if (element != null) {
-                    element.style.width = Math.floor(adjustedWidthPercent * selectedImages[k].width) + "px";
-                    element.style.height = Math.floor(adjustedWidthPercent * selectedImages[k].height) + "px";
-                    if (k == 0 && i == this.images.length - 1 && Math.floor(adjustedWidthPercent * selectedImages[k].width) >= parentWidth - (2 * this.imageMargin)) { 
+                    element.style.width = Math.floor(adjustedWidthPercent * selectedImages[k].getWidth()) + "px";
+                    element.style.height = Math.floor(adjustedWidthPercent * selectedImages[k].getHeight()) + "px";
+                    if (k == 0 && i == this.images.length - 1 && Math.floor(adjustedWidthPercent * selectedImages[k].getWidth()) >= parentWidth - (2 * this.imageMargin)) { 
                         element.style.maxHeight = this.imageMaxTargetHeight + "px";
                         element.style.width = "auto";
                         element.style.display = "block";
@@ -117,7 +117,7 @@ class ImageGalleryLayout {
     private sumWidthOfImages(images:ImageDataStruct[]):number {
         let sum:number = 0;
         images.forEach(element => {
-            sum += element.width;
+            sum += element.getWidth();
         });
         return sum;
     }
@@ -143,7 +143,7 @@ class ImageGalleryLayout {
      * @returns The HTML for individual images as a string
      */
     private generateImageHTML(imageData:ImageDataStruct, id:string):string {
-        return '<img src="' + imageData.url + '" title="' + imageData.title + '" alt="' + imageData.alt + '" id="' + id + '">';
+        return '<img src="' + imageData.getUrl() + '" title="' + imageData.getTitle() + '" alt="' + imageData.getAltText() + '" id="' + id + '">';
     }
 }
 
@@ -151,11 +151,11 @@ class ImageGalleryLayout {
  * Class to hold image information
  */
 class ImageDataStruct {
-    width:number;
-    height:number;
-    title:string;
-    alt:string;
-    url:string;
+    private width:number;
+    private height:number;
+    private title:string;
+    private altText:string;
+    private url:string;
 
     /**
      * Create image data
@@ -165,11 +165,42 @@ class ImageDataStruct {
      * @param height The height in pixels of the image source
      * @param url The absolute url of the image
      */
-    constructor(title:string, alt:string, width:number, height:number, url:string) {
+    constructor(title:string, altText:string, width:number, height:number, url:string) {
         this.title = title;
-        this.alt = alt;
+        this.altText = altText;
         this.width = width;
         this.height = height;
         this.url = url;
+    }
+
+    getTitle():string {
+        return this.title;
+    }
+    setTitle(title:string) {
+        this.title = title;
+    }
+    getAltText():string {
+        return this.altText;
+    }
+    setAltText(altText:string) {
+        this.altText = altText;
+    }
+    getUrl():string {
+        return this.url;
+    }
+    setUrl(url:string) {
+        this.url = url;
+    }
+    getWidth():number {
+        return this.width;
+    }
+    setWidth(width:number) {
+        this.width = width;
+    }
+    getHeight():number {
+        return this.height;
+    }
+    setHeight(height:number) {
+        this.height = height;
     }
 }
